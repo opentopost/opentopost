@@ -133,7 +133,7 @@ export default function SelfHost() {
         </Container>
       </section>
 
-      <FinalCta title="Run your own copy today" body="The self-hosting guide in the repository has every step." />
+      <FinalCta title="Run your own copy today" body="The self-hosting guide in the repository has every step." deployHref={REPO_URL} />
     </MarketingShell>
   );
 }

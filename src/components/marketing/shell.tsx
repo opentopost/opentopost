@@ -183,13 +183,19 @@ export function SectionHead({
   );
 }
 
-export function StartButtons({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+export function StartButtons({ size = "md", deployHref }: { size?: "sm" | "md" | "lg"; deployHref?: string }) {
   return (
     <div className="flex flex-wrap gap-2">
       <StartCta size={size}>Start free</StartCta>
-      <Link href="/self-host" className={buttonClass("secondary", size)}>
-        Deploy your own
-      </Link>
+      {deployHref ? (
+        <a href={deployHref} target="_blank" rel="noopener noreferrer" className={buttonClass("secondary", size)}>
+          Deploy your own
+        </a>
+      ) : (
+        <Link href="/self-host" className={buttonClass("secondary", size)}>
+          Deploy your own
+        </Link>
+      )}
     </div>
   );
 }
@@ -216,7 +222,7 @@ export function FeatureRow({
   );
 }
 
-export function FinalCta({ title, body }: { title: ReactNode; body: string }) {
+export function FinalCta({ title, body, deployHref }: { title: ReactNode; body: string; deployHref?: string }) {
   return (
     <section className="relative overflow-hidden py-24 md:py-32">
       <div className="grid-faint absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
@@ -224,7 +230,7 @@ export function FinalCta({ title, body }: { title: ReactNode; body: string }) {
         <Eyebrow>Getting started</Eyebrow>
         <h2 className="max-w-[640px] text-[40px] leading-[1.15] tracking-[-0.03em] md:text-display">{title}</h2>
         <p className="max-w-[560px] text-lead text-body">{body}</p>
-        <StartButtons size="lg" />
+        <StartButtons size="lg" deployHref={deployHref} />
       </Container>
     </section>
   );
