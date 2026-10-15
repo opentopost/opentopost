@@ -24,7 +24,7 @@
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "simple-icons": "^13.21.0",
+    "simple-icons": "^16.35.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
