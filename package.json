@@ -10,14 +10,14 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^4.0.78",
-    "@ai-sdk/google": "^4.0.93",
-    "@ai-sdk/openai": "^4.0.91",
+    "@ai-sdk/anthropic": "^4.0.79",
+    "@ai-sdk/google": "^4.0.94",
+    "@ai-sdk/openai": "^4.0.92",
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
     "@kinde-oss/kinde-auth-nextjs": "^2.13.2",
     "@openrouter/ai-sdk-provider": "^3.1.0",
-    "ai": "^7.0.137",
+    "ai": "^7.0.138",
     "convex": "^1.46.0",
     "convex-kinde-billing": "^0.1.11",
     "lucide-react": "^1.56.0",
@@ -25,7 +25,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "simple-icons": "^13.21.0",
-    "zod": "^4.6.5"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
