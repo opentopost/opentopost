@@ -1,0 +1,14 @@
+# Never upload secrets or internal working files from the terminal.
+.env*
+!.env.example
+.vercel
+.next
+node_modules
+CLAUDE.md
+AGENTS.md
+BUILD_*
+.agents
+.claude
+skills-lock.json
+convex/_generated/ai
+tsconfig.tsbuildinfo

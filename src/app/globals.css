@@ -1,0 +1,204 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+@theme {
+  --color-canvas: #f1f0ee;
+  --color-surface: #ffffff;
+  --color-ink: #101010;
+  --color-body: #343434;
+  --color-muted: #5c5c5c;
+  --color-faint: #8c8c8c;
+  --color-line: rgb(27 25 25 / 0.1);
+  --color-fill: rgb(22 22 22 / 0.06);
+
+  --color-accent: #ff00f4;
+  --color-accent-deep: #d600cd;
+  --color-accent-soft: #ffdfff;
+  --color-accent-mid: #ff9fff;
+
+  --color-sky: #ccf5ff;
+  --color-sky-mid: #98eafd;
+  --color-sky-deep: #0a7ea4;
+  --color-butter: #fff5cb;
+  --color-butter-mid: #fff2b0;
+  --color-lime: #e4f7b4;
+  --color-lime-ink: #3b4a0b;
+  --color-danger: #c4320a;
+  --color-danger-soft: #fdece6;
+
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+
+  --text-display: 3.5rem;
+  --text-display--line-height: 1.2;
+  --text-display--letter-spacing: -0.03em;
+  --text-title: 2.5rem;
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.02em;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.55;
+
+  --radius-control: 6px;
+  --radius-item: 8px;
+  --radius-card: 16px;
+}
+
+html {
+  background: var(--color-canvas);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.grid-paper {
+  background-color: var(--paper, var(--color-accent-soft));
+  background-image:
+    linear-gradient(var(--paper-line, rgb(255 0 244 / 0.12)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line, rgb(255 0 244 / 0.12)) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.grid-paper-sky {
+  --paper: var(--color-sky);
+  --paper-line: rgb(10 126 164 / 0.12);
+}
+
+.grid-paper-butter {
+  --paper: var(--color-butter);
+  --paper-line: rgb(120 90 0 / 0.1);
+}
+
+.grid-faint {
+  background-image:
+    linear-gradient(rgb(27 25 25 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(27 25 25 / 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@keyframes otp-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes otp-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes otp-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.otp-skeleton {
+  background: linear-gradient(90deg, rgb(22 22 22 / 0.05) 25%, rgb(22 22 22 / 0.1) 50%, rgb(22 22 22 / 0.05) 75%);
+  background-size: 200% 100%;
+  animation: otp-shimmer 1.6s ease-in-out infinite;
+}
+
+.otp-bar {
+  animation: otp-indeterminate 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.otp-orbit {
+  animation: otp-orbit 1.1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .otp-skeleton,
+  .otp-bar,
+  .otp-orbit {
+    animation: none;
+  }
+}
+
+@keyframes otp-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes otp-pulse {
+  0% { box-shadow: 0 0 0 0 rgb(255 0 244 / 0.45); }
+  100% { box-shadow: 0 0 0 8px rgb(255 0 244 / 0); }
+}
+
+@keyframes otp-wave {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+.otp-caret {
+  animation: otp-caret 1s steps(1) infinite;
+}
+
+.otp-pulse {
+  animation: otp-pulse 1.6s ease-out infinite;
+}
+
+.otp-wave > span {
+  transform-origin: center;
+  animation: otp-wave 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .otp-caret,
+  .otp-pulse,
+  .otp-wave > span {
+    animation: none;
+  }
+}
+
+@keyframes otp-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
