@@ -51,7 +51,7 @@ export default function SelfHost() {
           body="opentopost is open source. Run your own copy on Convex and Kinde, and every source, idea, draft, and key stays in your own accounts."
         >
           <div className="flex flex-wrap gap-2">
-            <a href={`${REPO_URL}#run-it-locally`} target="_blank" rel="noreferrer" className={buttonClass("primary", "md")}>
+            <a href={`${REPO_URL}/blob/main/docs/self-hosting.md`} target="_blank" rel="noreferrer" className={buttonClass("primary", "md")}>
               Read the setup guide
             </a>
             <a href={REPO_URL} target="_blank" rel="noreferrer" className={buttonClass("secondary", "md")}>
@@ -133,7 +133,7 @@ export default function SelfHost() {
         </Container>
       </section>
 
-      <FinalCta title="Run your own copy today" body="Everything you need is in the repository README." />
+      <FinalCta title="Run your own copy today" body="The self-hosting guide in the repository has every step." />
     </MarketingShell>
   );
 }

@@ -100,7 +100,7 @@ const FOOTER = [
     title: "Open source",
     links: [
       { href: REPO_URL, label: "GitHub repository" },
-      { href: `${REPO_URL}#run-it-locally`, label: "Run it locally" },
+      { href: `${REPO_URL}/blob/main/docs/self-hosting.md`, label: "Self-hosting guide" },
       { href: `${REPO_URL}/issues`, label: "Report an issue" },
     ],
   },

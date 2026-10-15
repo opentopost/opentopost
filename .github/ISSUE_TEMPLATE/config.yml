@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security problem
+    url: https://github.com/opentopost/opentopost/security/advisories/new
+    about: Please report vulnerabilities privately, not in a public issue.
+  - name: Questions about the hosted version
+    url: https://opentopost.com
+    about: For opentopost.com accounts, plans, and billing.

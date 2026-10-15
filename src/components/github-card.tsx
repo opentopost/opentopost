@@ -123,7 +123,7 @@ export function GitHubCard({ workspaceId, owner }: { workspaceId: Id<"workspaces
         <SkeletonList label="Loading GitHub" rows={1} compact />
       ) : !status.available ? (
         <p className="text-[13px] text-muted">
-          GitHub is not set up on this deployment. The README explains how to create the GitHub App and set its keys.
+          GitHub is not set up on this deployment. The integrations guide in the repository explains how to create the GitHub App and set its keys.
         </p>
       ) : !status.connected ? (
         <>

@@ -194,6 +194,35 @@ details > summary::-webkit-details-marker {
   }
 }
 
+@keyframes otp-ripple {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes otp-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+
+.otp-ripple {
+  animation: otp-ripple 1.8s ease-out infinite;
+}
+
+.otp-ripple-late {
+  animation-delay: 0.9s;
+}
+
+.otp-breathe {
+  animation: otp-breathe 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .otp-ripple,
+  .otp-breathe {
+    animation: none;
+  }
+}
+
 @keyframes otp-marquee {
   from {
     transform: translateX(0);

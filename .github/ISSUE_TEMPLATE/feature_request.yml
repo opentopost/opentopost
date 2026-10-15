@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest something opentopost should do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What is hard for your team today?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you would like
+      description: How it would work, in a few sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: What you do now instead

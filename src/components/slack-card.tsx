@@ -157,7 +157,7 @@ export function SlackCard({ workspaceId, owner }: { workspaceId: Id<"workspaces"
         <SkeletonList label="Loading" rows={2} compact />
       ) : !status.available ? (
         <p className="text-[13px] text-muted">
-          Slack is not set up on this deployment. The README explains how to create the Slack app and set its keys.
+          Slack is not set up on this deployment. The integrations guide in the repository explains how to create the Slack app and set its keys.
         </p>
       ) : !status.connected && !features.slack ? (
         <TeamOnly feature="slack" detail="Find moments in the channels you choose, and claim ideas without leaving Slack." />

@@ -82,8 +82,8 @@ function LinkedInCard() {
         <SkeletonList label="Loading LinkedIn" rows={1} compact />
       ) : !status.available ? (
         <p className="text-[13px] text-muted">
-          LinkedIn publishing is not set up on this deployment, so scheduled posts send a reminder instead. The README explains the
-          setup.
+          LinkedIn publishing is not set up on this deployment, so scheduled posts send a reminder instead. The integrations guide in the
+          repository explains the setup.
         </p>
       ) : status.connected ? (
         <>

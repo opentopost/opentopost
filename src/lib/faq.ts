@@ -33,7 +33,7 @@ export const FAQ = [
   },
   {
     q: "What do I need to self-host?",
-    a: "A Convex account and a Kinde account. Both have free plans. The README in the GitHub repository walks through each step.",
+    a: "A Convex account and a Kinde account. Both have free plans. The self-hosting guide in the GitHub repository walks through each step.",
   },
   {
     q: "How is my key stored?",
