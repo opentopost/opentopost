@@ -89,6 +89,8 @@ export default defineSchema({
     useOwnKey: v.optional(v.boolean()),
     // Autopilot: approved-by-rule drafts publish without a person (see lib/ops.ts).
     autopilot: v.optional(v.boolean()),
+    // Set on the read-only demo workspaces behind demo.opentopost.com. The value is the scenario key.
+    demo: v.optional(v.string()),
     // Write each person's top idea for them after a scan. On unless set to false.
     autoDraft: v.optional(v.boolean()),
     // Hour of day (0-23, workspace time zone) used when a draft is approved without a time.
@@ -119,7 +121,8 @@ export default defineSchema({
   })
     .index("by_kinde_org", ["kindeOrgCode"])
     .index("by_billing_org", ["billingOrgCode"])
-    .index("by_conversion_key", ["conversionKey"]),
+    .index("by_conversion_key", ["conversionKey"])
+    .index("by_demo", ["demo"]),
 
   members: defineTable({
     workspaceId: v.id("workspaces"),
@@ -131,6 +134,8 @@ export default defineSchema({
     teamId: v.optional(v.id("teams")),
     lastActiveAt: v.optional(v.number()),
     weeklyGoal: v.optional(v.number()),
+    // Autopilot only acts for people who turned it on for themselves. Unset means off.
+    autopilotOptIn: v.optional(v.boolean()),
     // A person's own posting time zone and hour. Unset means the workspace default.
     timezone: v.optional(v.string()),
     postHour: v.optional(v.number()),

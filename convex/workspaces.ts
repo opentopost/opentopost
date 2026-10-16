@@ -35,6 +35,8 @@ export const ensure = mutation({
       else await ctx.db.delete(row._id);
     }
     if (existing.length > 0) return existing[0].workspaceId;
+    // A demo sign-in must never create a real workspace. The demo workspaces are built ahead of time.
+    if (identity.subject.startsWith("demo:")) throw new ConvexError("DEMO_NOT_READY");
 
     const entry = await entryFor(ctx, identity, args.accessCode);
 
@@ -107,6 +109,7 @@ export const current = query({
         name: workspace.name,
         defaultProvider: workspace.defaultProvider ?? null,
         timezone: workspace.timezone,
+        demo: workspace.demo ?? null,
         scanDay: workspace.scanDay,
         reviewRequired: (workspace.reviewRequired ?? false) && ent.features.review,
         modelReady: modelReady(ent, workspace),
@@ -127,6 +130,7 @@ export const current = query({
         role: member.role,
         timezone: member.timezone ?? null,
         postHour: member.postHour ?? null,
+        autopilotOptIn: member.autopilotOptIn ?? false,
       },
       workspaces: all.filter((row): row is NonNullable<typeof row> => row !== null),
       mode: ent.mode,

@@ -5,6 +5,17 @@ import type { MutationCtx, QueryCtx } from "../_generated/server";
 
 type Ctx = QueryCtx | MutationCtx;
 
+/*
+ * Demo workspaces (demo.opentopost.com) are read-only by default: every mutation that goes
+ * through requireMember is refused for them. A mutation that is safe on canned data opts in
+ * with allowInDemo(ctx) as its first line.
+ */
+const demoAllowed = new WeakSet<object>();
+export function allowInDemo(ctx: Ctx) {
+  demoAllowed.add(ctx);
+}
+const isMutationCtx = (ctx: Ctx): ctx is MutationCtx => "scheduler" in ctx;
+
 export async function requireIdentity(ctx: Ctx): Promise<UserIdentity> {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new ConvexError("Sign in to continue.");
@@ -23,6 +34,10 @@ export async function requireMember(
     )
     .unique();
   if (!member) throw new ConvexError("You are not a member of this workspace.");
+  if (isMutationCtx(ctx) && !demoAllowed.has(ctx)) {
+    const workspace = await ctx.db.get(workspaceId);
+    if (workspace?.demo) throw new ConvexError("This is a demo workspace, so that action is switched off.");
+  }
   return member;
 }
 

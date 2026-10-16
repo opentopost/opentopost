@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import type { Doc } from "./_generated/dataModel";
 import { internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
-import { isManager, requireMember } from "./lib/auth";
+import { allowInDemo, isManager, requireMember } from "./lib/auth";
 import { appActor, recordPosted, requireDraft } from "./drafts";
 import { cancelSchedule, scheduleDraft } from "./lib/ops";
 import { entitlementsFor } from "./lib/plan";
@@ -13,6 +13,7 @@ import { linkedinConfigured } from "./linkedin";
 export const set = mutation({
   args: { draftId: v.id("drafts"), at: v.number(), mode: v.union(v.literal("publish"), v.literal("remind")) },
   handler: async (ctx, args) => {
+    allowInDemo(ctx);
     const draft = await requireDraft(ctx, args.draftId);
     const ent = await entitlementsFor(ctx, draft.workspaceId);
     await scheduleDraft(ctx, await appActor(ctx, draft.workspaceId), draft, {

@@ -207,6 +207,28 @@ export async function reviseDraft(
   const change = instruction.trim();
   if (!change) throw new ConvexError("Say what to change.");
   if (draft.status === "generating") throw new ConvexError("This draft is still being written. Try again in a moment.");
+  const workspace = await ctx.db.get(draft.workspaceId);
+  if (workspace?.demo) {
+    // The demo never calls a model. "Fix it for me" removes the sentences that have no source.
+    const unsupported = (draft.claims ?? []).filter((item) => item.status === "unsupported");
+    if (unsupported.length === 0) throw new ConvexError("The demo only fixes claims without a source.");
+    let body = current?.body ?? draft.body;
+    for (const item of unsupported) body = body.split(item.text).join("");
+    body = body.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+    await ctx.db.patch(draft._id, {
+      body,
+      hook: current?.hook ?? draft.hook,
+      claims: (draft.claims ?? []).filter((item) => item.status !== "unsupported"),
+      claimsCheckedAt: Date.now(),
+      status: "ready",
+      updatedAt: Date.now(),
+      revisions: [...draft.revisions, { at: Date.now(), instruction: change.slice(0, 500), body }],
+      ...resetReview,
+    });
+    await logDraftEvent(ctx, draft, "revision_requested", actor.via);
+    await audit(ctx, draft.workspaceId, actor, "draft.revision_requested", draft.title, "Removed claims without a source");
+    return;
+  }
   await ctx.db.patch(draft._id, {
     ...(current ? { hook: current.hook, body: current.body } : {}),
     status: "generating",
@@ -344,8 +366,9 @@ export async function scheduleDraft(
     if (!canPublish) throw new ConvexError("Connect LinkedIn on the Calendar page first. The connection must still be valid at the scheduled time.");
   }
   if (draft.schedule?.jobId && draft.schedule.state === "scheduled") await ctx.scheduler.cancel(draft.schedule.jobId);
-  const jobId = await ctx.scheduler.runAt(at, internal.schedule.fire, { draftId: draft._id, at });
-  await ctx.db.patch(draft._id, { schedule: { at, mode, state: "scheduled", jobId }, scheduledAt: at });
+  // Demo workspaces keep the schedule on screen but never publish.
+  const jobId = workspace?.demo ? undefined : await ctx.scheduler.runAt(at, internal.schedule.fire, { draftId: draft._id, at });
+  await ctx.db.patch(draft._id, { schedule: { at, mode, state: "scheduled", ...(jobId ? { jobId } : {}) }, scheduledAt: at });
   await logDraftEvent(ctx, draft, "scheduled", actor.via, at);
   await audit(ctx, draft.workspaceId, actor, "draft.scheduled", draft.title, `${mode} at ${new Date(at).toISOString()}`);
   await emit(ctx, draft.workspaceId, "draft.scheduled", { draftId: draft._id, title: draft.title, at: new Date(at).toISOString(), mode });

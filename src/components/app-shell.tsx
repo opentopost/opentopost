@@ -363,9 +363,11 @@ function UserRow({ current }: { current: Current }) {
       </span>
       <span className="min-w-0 flex-1 truncate text-[14px] font-medium">{current.member.name}</span>
       <Badge tone="fill">{ROLE_LABELS[current.member.role]}</Badge>
-      <LogoutLink aria-label="Sign out" className={buttonClass("ghost", "sm", "w-8 px-0")}>
-        <LogOut size={14} strokeWidth={1.75} />
-      </LogoutLink>
+      {!current.workspace.demo && (
+        <LogoutLink aria-label="Sign out" className={buttonClass("ghost", "sm", "w-8 px-0")}>
+          <LogOut size={14} strokeWidth={1.75} />
+        </LogoutLink>
+      )}
     </div>
   );
 }

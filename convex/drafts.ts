@@ -6,7 +6,7 @@ import { internalAction, internalMutation, internalQuery, mutation, query } from
 import type { ActionCtx, MutationCtx, QueryCtx } from "./_generated/server";
 import { describeError, quote, structured } from "./lib/ai";
 import type { ResolvedModel } from "./lib/model";
-import { isReviewer, requireIdentity, requireMember, requireReviewer } from "./lib/auth";
+import { allowInDemo, isReviewer, requireIdentity, requireMember, requireReviewer } from "./lib/auth";
 import { cleanClaims, type Claim, type Fact } from "./lib/claims";
 import { activeRules } from "./rules";
 import { mediaForView } from "./media";
@@ -251,6 +251,7 @@ export const regenerate = mutation({
 export const requestRevision = mutation({
   args: { draftId: v.id("drafts"), instruction: v.string(), hook: v.string(), body: v.string() },
   handler: async (ctx, args) => {
+    allowInDemo(ctx);
     const draft = await requireDraft(ctx, args.draftId);
     if (draft.status === "generating") return;
     await reviseDraft(ctx, await appActor(ctx, draft.workspaceId), draft, args.instruction, { hook: args.hook, body: args.body });
@@ -291,6 +292,7 @@ export const requestReview = mutation({
 export const decideReview = mutation({
   args: { draftId: v.id("drafts"), approve: v.boolean(), comment: v.optional(v.string()) },
   handler: async (ctx, args) => {
+    allowInDemo(ctx);
     const draft = await ctx.db.get(args.draftId);
     if (!draft) throw new ConvexError("This draft no longer exists.");
     await requireReviewer(ctx, draft.workspaceId);

@@ -75,6 +75,7 @@ export const resolve = internalQuery({
   handler: async (ctx, args) => {
     const workspace = await ctx.db.get(args.workspaceId);
     if (!workspace) throw new ConvexError("Workspace not found.");
+    if (workspace.demo) throw new ConvexError("The demo workspace does not call a model.");
     const ent = await entitlements(ctx, workspace);
 
     if (ent.features.hostedModels && !workspace.useOwnKey) {

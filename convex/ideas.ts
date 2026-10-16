@@ -500,6 +500,7 @@ export const scheduleWeekly = internalMutation({
     const today = new Date().getUTCDay();
     const workspaces = await ctx.db.query("workspaces").collect();
     for (const workspace of workspaces) {
+      if (workspace.demo) continue;
       const ent = await entitlements(ctx, workspace);
       const daily = ent.mode === "hosted" && ent.plan !== "free";
       if ((!daily && workspace.scanDay !== today) || !modelReady(ent, workspace)) continue;
