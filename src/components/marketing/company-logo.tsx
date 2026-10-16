@@ -6,7 +6,20 @@ import { useState } from "react";
  * A company's logo from its domain, the same way devrel_studio does it: logo.dev when a token is set,
  * then the icon from the company's own home page, then Google's favicon service, then the first letter.
  */
-export function CompanyLogo({ domain, iconUrl, name, size = 56 }: { domain: string; iconUrl?: string | null; name: string; size?: number }) {
+export function CompanyLogo({
+  domain,
+  iconUrl,
+  name,
+  size = 56,
+  bare = false,
+}: {
+  domain: string;
+  iconUrl?: string | null;
+  name: string;
+  size?: number;
+  /** Only the logo: no white tile and no border, so it sits straight on the page. */
+  bare?: boolean;
+}) {
   const token = process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN;
   const sources = [
     token ? `https://img.logo.dev/${domain}?token=${token}&size=${size * 2}&format=png` : null,
@@ -15,6 +28,22 @@ export function CompanyLogo({ domain, iconUrl, name, size = 56 }: { domain: stri
   ].filter((src): src is string => Boolean(src));
   const [index, setIndex] = useState(0);
   const box = { width: size, height: size };
+
+  if (bare && index < sources.length) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        key={sources[index]}
+        src={sources[index]}
+        alt={`${name} logo`}
+        height={size}
+        referrerPolicy="no-referrer"
+        style={{ height: size, width: "auto", maxWidth: size * 4 }}
+        className="object-contain opacity-70 grayscale transition duration-200 hover:opacity-100 hover:grayscale-0"
+        onError={() => setIndex((i) => i + 1)}
+      />
+    );
+  }
 
   if (index >= sources.length) {
     return (
