@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { queueFirstScan } from "./lib/firstScan";
 import { internal } from "./_generated/api";
 import type { Doc, Id } from "./_generated/dataModel";
 import { action, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
@@ -232,6 +233,7 @@ export const saveConnection = internalMutation({
       });
     } else {
       await ctx.db.insert("sources", { workspaceId: args.workspaceId, type: "slack", config: args.config, enabled: true });
+      await queueFirstScan(ctx, args.workspaceId);
     }
   },
 });

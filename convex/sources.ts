@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { queueFirstScan } from "./lib/firstScan";
 import type { Id } from "./_generated/dataModel";
 import { internalMutation, mutation, query } from "./_generated/server";
 import type { MutationCtx, QueryCtx } from "./_generated/server";
@@ -58,12 +59,14 @@ async function notesSource(ctx: MutationCtx, workspaceId: Id<"workspaces">): Pro
   if (sources.filter((source) => source.type !== "mcp").length >= limits.sources) {
     throw new ConvexError(sourceLimitMessage(plan, limits.sources));
   }
-  return ctx.db.insert("sources", {
+  const created = await ctx.db.insert("sources", {
     workspaceId,
     type: "notes",
     config: { name: "Notes" },
     enabled: true,
   });
+  await queueFirstScan(ctx, workspaceId);
+  return created;
 }
 
 export const overview = query({

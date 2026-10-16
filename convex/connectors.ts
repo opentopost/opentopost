@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { queueFirstScan } from "./lib/firstScan";
 import { internal } from "./_generated/api";
 import type { Doc, Id } from "./_generated/dataModel";
 import { action, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
@@ -185,6 +186,7 @@ export const insert = internalMutation({
       config: { kind: args.kind, settings: args.settings } satisfies ConnectorConfig,
       enabled: true,
     });
+    await queueFirstScan(ctx, args.workspaceId);
     if (args.secret) {
       await ctx.db.insert("secrets", { workspaceId: args.workspaceId, kind: "connector", label: sourceId, ...args.secret, testedAt: Date.now(), testOk: true });
     }

@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { queueFirstScan } from "./lib/firstScan";
 import { internal } from "./_generated/api";
 import type { Doc, Id } from "./_generated/dataModel";
 import { action, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
@@ -133,6 +134,7 @@ export const insert = internalMutation({
       config: { name: args.name },
       enabled: true,
     });
+    await queueFirstScan(ctx, args.workspaceId);
     const serverId = await ctx.db.insert("mcpServers", {
       workspaceId: args.workspaceId,
       name: args.name,

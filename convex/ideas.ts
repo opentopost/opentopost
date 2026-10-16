@@ -494,6 +494,30 @@ export const finishRun = internalMutation({
   },
 });
 
+/**
+ * The first scan after sources are connected, so nobody has to press Scan to get their first ideas.
+ * It runs once: it does nothing if the workspace has already scanned, has no source, or has no model ready.
+ */
+export const firstScan = internalMutation({
+  args: { workspaceId: v.id("workspaces") },
+  handler: async (ctx, args) => {
+    const workspace = await ctx.db.get(args.workspaceId);
+    if (!workspace || workspace.demo) return;
+    const scanned = await ctx.db
+      .query("runs")
+      .withIndex("by_workspace_kind_started", (q) => q.eq("workspaceId", args.workspaceId).eq("kind", "scan"))
+      .first();
+    if (scanned) return;
+    const sources = await ctx.db
+      .query("sources")
+      .withIndex("by_workspace", (q) => q.eq("workspaceId", args.workspaceId))
+      .collect();
+    if (!sources.some((source) => source.enabled)) return;
+    if (!modelReady(await entitlements(ctx, workspace), workspace)) return;
+    await startRun(ctx, args.workspaceId, "schedule");
+  },
+});
+
 export const scheduleWeekly = internalMutation({
   args: {},
   handler: async (ctx) => {

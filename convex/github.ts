@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { queueFirstScan } from "./lib/firstScan";
 import { internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 import { action, internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
@@ -151,7 +152,10 @@ export const saveInstallation = internalMutation({
       repos: previous?.installationId === args.installationId ? previous.repos : [],
     };
     if (source) await ctx.db.patch(source._id, { config, enabled: true });
-    else await ctx.db.insert("sources", { workspaceId: args.workspaceId, type: "github", config, enabled: true });
+    else {
+      await ctx.db.insert("sources", { workspaceId: args.workspaceId, type: "github", config, enabled: true });
+      await queueFirstScan(ctx, args.workspaceId);
+    }
   },
 });
 

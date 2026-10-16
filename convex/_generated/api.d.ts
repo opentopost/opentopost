@@ -37,6 +37,7 @@ import type * as lib_connectors from "../lib/connectors.js";
 import type * as lib_crypto from "../lib/crypto.js";
 import type * as lib_dedupe from "../lib/dedupe.js";
 import type * as lib_editDistance from "../lib/editDistance.js";
+import type * as lib_firstScan from "../lib/firstScan.js";
 import type * as lib_kinde from "../lib/kinde.js";
 import type * as lib_limits from "../lib/limits.js";
 import type * as lib_mcp from "../lib/mcp.js";
@@ -106,6 +107,7 @@ declare const fullApi: ApiFromModules<{
   "lib/crypto": typeof lib_crypto;
   "lib/dedupe": typeof lib_dedupe;
   "lib/editDistance": typeof lib_editDistance;
+  "lib/firstScan": typeof lib_firstScan;
   "lib/kinde": typeof lib_kinde;
   "lib/limits": typeof lib_limits;
   "lib/mcp": typeof lib_mcp;

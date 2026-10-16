@@ -286,7 +286,7 @@ function WorkspaceBox({ current }: { current: Current }) {
       >
         <Mark size={24} />
         <span className="min-w-0 flex-1 truncate text-[14px] font-medium">{current.workspace.name}</span>
-        <Badge>{current.mode === "hosted" ? "Hosted" : "Self-hosted"}</Badge>
+        {current.mode !== "hosted" && <Badge>Self-hosted</Badge>}
         <ChevronsUpDown size={14} strokeWidth={1.75} className="shrink-0 text-muted" />
       </button>
       {open && (
