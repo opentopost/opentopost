@@ -2,9 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { APP_PREFIXES } from "@/lib/app-paths";
 import { flush, normalizePath, track, trackingAllowed } from "@/lib/track";
 
-const APP_PREFIXES = ["/dashboard", "/ideas", "/moments", "/drafts", "/calendar", "/review", "/recap", "/sources", "/voice", "/company", "/settings", "/onboarding", "/start", "/invite", "/billing", "/insights"];
 const IDLE = 60_000;
 
 function labelFor(element: Element, inApp: boolean): string | undefined {
@@ -32,6 +32,7 @@ function hrefFor(element: Element): string | undefined {
 /** Records page views, clicks, scroll depth, and active time on each page. */
 export function Tracker() {
   const pathname = usePathname();
+  const consentKey = null;
   const page = useRef<{ path: string; activeMs: number; scroll: number; lastTick: number; lastInput: number } | null>(null);
 
   // Clicks, scroll, activity, and sending.
@@ -85,7 +86,7 @@ export function Tracker() {
       window.clearInterval(tick);
       window.clearInterval(send);
     };
-  }, []);
+  }, [consentKey]);
 
   // A page view on each route, and the time spent on the one before it.
   useEffect(() => {
@@ -104,7 +105,7 @@ export function Tracker() {
       flush();
     }, 300);
     return () => window.clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, consentKey]);
 
   return null;
 }

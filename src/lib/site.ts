@@ -8,7 +8,7 @@ export const SITE = {
   repo: "https://github.com/opentopost/opentopost",
   creator: { name: "Shola Jegede", url: "https://sholajegede.com", x: "@wani_shola" },
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null,
-  updated: "14 October 2026",
+  updated: "16 October 2026",
 };
 
 export const PAGES = {

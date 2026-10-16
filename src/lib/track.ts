@@ -82,7 +82,9 @@ export function trackingAllowed() {
   if (typeof window === "undefined") return false;
   if (location.hostname.startsWith("admin.")) return false;
   const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
-  return nav.doNotTrack !== "1" && nav.globalPrivacyControl !== true;
+  if (nav.doNotTrack === "1" || nav.globalPrivacyControl === true) return false;
+  // On the public site, measurement starts only after a yes to analytics. The signed-in app is the product itself.
+  return true;
 }
 
 /** Ties this browser's events to a signed-in member, inside the app. */

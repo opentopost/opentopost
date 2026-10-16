@@ -556,6 +556,7 @@ export default defineSchema({
     .index("by_status_created", ["status", "createdAt"])
     .index("by_workspace", ["workspaceId"]),
 
+
   analyticsEvents: defineTable({
     type: v.union(v.literal("pageview"), v.literal("click"), v.literal("engage")),
     at: v.number(),

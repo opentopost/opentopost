@@ -65,7 +65,7 @@ export default function Privacy() {
         {
           id: "cookies",
           title: "Cookies",
-          body: <p>We use only the cookies needed to keep you signed in. We use no advertising or tracking cookies. Our analytics keep a random ID in your browser&apos;s local storage, not in a cookie, and are off when your browser sends Do Not Track or Global Privacy Control.</p>,
+          body: <p>We use the cookies and local storage needed to keep you signed in and to remember your cookie choice. With your yes, we also use analytics, which keep a random ID in your browser&apos;s local storage, and marketing tags from LinkedIn, Meta, and X on our public website. We ask on your first visit, we load nothing from analytics or marketing before you agree, and you can change your choice at any time from Cookie settings in the footer. Browsers that send Do Not Track or Global Privacy Control are not measured, and get no marketing tags. We keep a record of your choice, with a random ID and the time, and no IP address. The <a href="/cookies">cookie policy</a> lists each one.</p>,
         },
         {
           id: "retention",
