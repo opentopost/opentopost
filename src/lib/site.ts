@@ -73,6 +73,14 @@ export const PAGES = {
     eyebrow: "Docs",
     heading: "Run opentopost from an agent",
   },
+  tools: {
+    path: "/tools",
+    title: "Free LinkedIn tools",
+    description:
+      "Small, free tools for people who post on LinkedIn. They run on your device, so what you put in is never uploaded.",
+    eyebrow: "Free tools",
+    heading: "Free tools for people who post on LinkedIn",
+  },
   linkedinPhoto: {
     path: "/tools/linkedin-photo",
     title: "Free LinkedIn photo tool",

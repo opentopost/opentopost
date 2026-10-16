@@ -83,7 +83,7 @@ const FOOTER = [
       { href: "/pricing", label: "Pricing" },
       { href: "/self-host", label: "Self-host" },
       { href: "/security", label: "Security" },
-      { href: "/tools/linkedin-photo", label: "Free photo tool" },
+      { href: "/tools", label: "Free tools" },
       { href: "/docs/agents", label: "Agents and API" },
       { href: "/compare/taplio", label: "vs Taplio" },
       { href: "/compare/everyonesocial", label: "vs EveryoneSocial" },
