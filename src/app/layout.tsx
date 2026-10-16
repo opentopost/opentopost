@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   keywords: [
     "LinkedIn content tool",
     "LinkedIn post ideas",
-    "employee advocacy",
+    "LinkedIn signups from posts",
     "AI LinkedIn writer",
     "team LinkedIn posts",
     "open source",

@@ -1,4 +1,4 @@
-import { ConvexError, v } from "convex/values";
+import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import type { Doc } from "./_generated/dataModel";
 import { internalAction, internalMutation, internalQuery, mutation, query } from "./_generated/server";
@@ -8,7 +8,6 @@ import { cancelSchedule, scheduleDraft } from "./lib/ops";
 import { entitlementsFor } from "./lib/plan";
 import { linkedinConfigured } from "./linkedin";
 
-const WEEK = 7 * 24 * 60 * 60 * 1000;
 
 /** Schedules a draft. "publish" posts it to the author's LinkedIn. "remind" tells the author when it is time. */
 export const set = mutation({
@@ -204,27 +203,9 @@ export const range = query({
         needsReview: draft.reviewState !== "approved",
       }));
 
-    const weekStart = Date.now() - WEEK;
-    const myPosts = (
-      await ctx.db
-        .query("posts")
-        .withIndex("by_member", (q) => q.eq("memberId", me._id))
-        .collect()
-    ).filter((post) => post.postedAt >= weekStart).length;
-
     return {
       items: items.sort((a, b) => a.at - b.at),
       unscheduled,
-      goal: { weekly: me.weeklyGoal ?? 2, postedThisWeek: myPosts },
     };
-  },
-});
-
-export const setWeeklyGoal = mutation({
-  args: { workspaceId: v.id("workspaces"), goal: v.number() },
-  handler: async (ctx, args) => {
-    const me = await requireMember(ctx, args.workspaceId);
-    if (!Number.isInteger(args.goal) || args.goal < 0 || args.goal > 14) throw new ConvexError("Choose between 0 and 14 posts a week.");
-    await ctx.db.patch(me._id, { weeklyGoal: args.goal });
   },
 });

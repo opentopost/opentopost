@@ -55,7 +55,6 @@ export function YourWeek() {
     }
   }
 
-  const goalMet = week.posted >= week.goal;
   const waiting = week.waiting;
   const items =
     waiting.sentBack.length +
@@ -71,19 +70,14 @@ export function YourWeek() {
       <div className="flex items-end justify-between gap-3">
         <h2 className="text-[20px] font-medium tracking-[-0.01em]">Your week</h2>
         <Link href="/calendar" className="text-[13px] text-muted underline decoration-line underline-offset-4 hover:text-ink">
-          Change your goal
+          Open calendar
         </Link>
       </div>
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Figure label="You shipped" value={week.shipped} hint="moments with your name this week" />
-        <Figure
-          label="You posted"
-          value={`${week.posted} of ${week.goal}`}
-          hint={goalMet ? "Weekly goal met" : `${week.goal - week.posted} to go this week`}
-          accent={goalMet}
-        />
+        <Figure label="You posted" value={week.posted} hint="posts this week" />
         <Figure label="Clicks" value={week.last30.clicks} hint="from your posts, last 30 days" />
-        <Figure label="Signups" value={week.last30.conversions} hint={`${week.last30.posts} posts in the last 30 days`} />
+        <Figure label="Signups" value={week.last30.conversions} hint={`${week.last30.posts} posts in the last 30 days`} accent={week.last30.conversions > 0} />
       </div>
 
       <Card className="overflow-hidden">

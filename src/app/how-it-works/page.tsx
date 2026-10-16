@@ -40,7 +40,7 @@ const STEPS: { eyebrow: string; title: string; body: string; screen: ScreenName;
   {
     eyebrow: "On schedule",
     title: "Posted at the right time",
-    body: "Schedule a post and it publishes to your LinkedIn on its own, or sends you a reminder. A weekly goal keeps the habit going.",
+    body: "Schedule a post and it publishes to your LinkedIn on its own, or sends you a reminder. Each post carries a tracked link, so you see the signups it brought.",
     screen: "calendar",
     path: "calendar",
   },

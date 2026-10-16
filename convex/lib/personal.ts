@@ -74,7 +74,6 @@ export async function personalWeek(ctx: QueryCtx, member: Doc<"members">, now = 
     shipped: shippedThisWeek.length,
     toldThisWeek: shippedThisWeek.filter((moment) => toldIds.has(moment._id)).length,
     posted: posts.filter((post) => post.postedAt >= start).length,
-    goal: member.weeklyGoal ?? 2,
     last30: { posts: posts.length, clicks: links.reduce((sum, link) => sum + (link.clicks ?? 0), 0), conversions },
     untold: recent
       .filter((moment) => !touched.has(moment._id))

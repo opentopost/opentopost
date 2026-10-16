@@ -542,11 +542,11 @@ export const postRecap = internalAction({
     const conn = await token(ctx, recap.workspaceId);
     if (!conn?.config.ideasChannel) return;
     const top = recap.stats.top
-      .map((post, index) => `${index + 1}. <${post.url}|${post.title}> by ${post.author}: ${post.clicks} clicks, ${post.conversions} conversions`)
+      .map((post, index) => `${index + 1}. <${post.url}|${post.title}> by ${post.author}: ${post.clicks} clicks, ${post.conversions} signups`)
       .join("\n");
     const people = recap.stats.people
       .filter((person) => person.posts > 0)
-      .map((person) => `${person.name}: ${person.posts}${person.streak > 1 ? ` (${person.streak}-week streak)` : ""}`)
+      .map((person) => `${person.name}: ${person.posts} ${person.posts === 1 ? "post" : "posts"}, ${person.conversions} ${person.conversions === 1 ? "signup" : "signups"}`)
       .join("\n");
     await slackApi(
       "chat.postMessage",
@@ -1267,7 +1267,7 @@ export const personalRecaps = internalAction({
       const first = member.name.split(" ")[0];
       const lines = [
         `*Your week, ${first}*`,
-        `Shipped: *${week.shipped}* · Posted: *${week.posted} of ${week.goal}*`,
+        `Shipped: *${week.shipped}* · Posted: *${week.posted}*`,
         week.last30.posts ? `Last 30 days: ${week.last30.posts} posts, ${week.last30.clicks} clicks, ${week.last30.conversions} signups` : "",
         week.waiting.sentBack.length ? `${week.waiting.sentBack.length} draft${week.waiting.sentBack.length === 1 ? "" : "s"} sent back to you` : "",
         week.waiting.ready.length ? `${week.waiting.ready.length} draft${week.waiting.ready.length === 1 ? "" : "s"} ready to approve` : "",
@@ -1286,7 +1286,7 @@ export const personalRecaps = internalAction({
           },
         );
       }
-      await dm(ctx, conn, member, `Your week: shipped ${week.shipped}, posted ${week.posted} of ${week.goal}`, blocks);
+      await dm(ctx, conn, member, `Your week: shipped ${week.shipped}, posted ${week.posted}`, blocks);
     }
   },
 });

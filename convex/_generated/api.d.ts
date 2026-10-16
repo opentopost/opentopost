@@ -50,6 +50,7 @@ import type * as lib_safeFetch from "../lib/safeFetch.js";
 import type * as lib_style from "../lib/style.js";
 import type * as lib_tools from "../lib/tools.js";
 import type * as lib_week from "../lib/week.js";
+import type * as lib_xConversions from "../lib/xConversions.js";
 import type * as linkedin from "../linkedin.js";
 import type * as links from "../links.js";
 import type * as mcp from "../mcp.js";
@@ -118,6 +119,7 @@ declare const fullApi: ApiFromModules<{
   "lib/style": typeof lib_style;
   "lib/tools": typeof lib_tools;
   "lib/week": typeof lib_week;
+  "lib/xConversions": typeof lib_xConversions;
   linkedin: typeof linkedin;
   links: typeof links;
   mcp: typeof mcp;

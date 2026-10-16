@@ -27,7 +27,7 @@ function Dot({ on, label }: { on: boolean | null; label: string }) {
   );
 }
 
-/** One row per person: shipped and posted this week, what waits on them, and what they have connected. */
+/** One row per person: shipped and posted this week, the signups their posts brought, what waits on them, and what they have connected. */
 export function TeamTable() {
   const { workspace } = useWorkspace();
   const data = useQuery(api.personal.team, { workspaceId: workspace._id });
@@ -47,7 +47,7 @@ export function TeamTable() {
         <table className="w-full min-w-[720px] border-collapse text-left text-[13px]">
           <thead>
             <tr className="border-b border-line text-[12px] text-muted">
-              {["Person", "Shipped", "Posted", "Waiting", "Voice", "LinkedIn", "Slack", "Last seen"].map((head) => (
+              {["Person", "Shipped", "Posted", "Signups (30 days)", "Waiting", "Voice", "LinkedIn", "Slack", "Last seen"].map((head) => (
                 <th key={head} className="px-4 py-2.5 font-normal whitespace-nowrap">
                   {head}
                 </th>
@@ -56,7 +56,6 @@ export function TeamTable() {
           </thead>
           <tbody className="divide-y divide-line">
             {data.rows.map((row) => {
-              const behind = row.posted < row.goal;
               return (
                 <tr key={row.memberId}>
                   <td className="px-4 py-2.5">
@@ -65,9 +64,11 @@ export function TeamTable() {
                   </td>
                   <td className="px-4 py-2.5 tabular-nums">{row.shipped}</td>
                   <td className="px-4 py-2.5 tabular-nums">
-                    <span className={behind ? "text-ink" : "font-medium text-accent"}>
-                      {row.posted} of {row.goal}
-                    </span>
+                    {row.posted}
+                  </td>
+                  <td className="px-4 py-2.5 tabular-nums">
+                    <span className={row.signups > 0 ? "font-medium text-accent" : "text-muted"}>{row.signups}</span>
+                    <span className="block text-[12px] text-muted">{row.clicks} clicks</span>
                   </td>
                   <td className="px-4 py-2.5">
                     {row.waiting + row.inReview === 0 ? (
@@ -97,7 +98,7 @@ export function TeamTable() {
         </table>
       </div>
       <p className="border-t border-line px-4 py-2.5 text-[12px] text-muted">
-        Shipped counts the moments with each person&apos;s name. Slack shows a tick once opentopost has sent them a message.
+        Shipped counts the moments with each person&apos;s name. Signups and clicks come from the tracked links in their posts.
       </p>
     </Card>
   );

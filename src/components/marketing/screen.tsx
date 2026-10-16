@@ -8,7 +8,7 @@ export const SCREENS = {
   moments: { src: "/screens/moments.png", width: 3456, height: 2164, alt: "The Moments page: true things the team did, each fact with its exact quote and source" },
   draft: { src: "/screens/draft.png", width: 3456, height: 2168, alt: "A company page draft with three hooks, a LinkedIn preview, and every claim traced to its source" },
   voice: { src: "/screens/voice.png", width: 3456, height: 2166, alt: "A voice profile built from posts, a tweet screenshot, and a blog post, with version history" },
-  calendar: { src: "/screens/calendar.png", width: 3456, height: 2166, alt: "The Calendar: a week of scheduled and posted drafts, a weekly goal, and LinkedIn publishing" },
+  calendar: { src: "/screens/calendar.png", width: 3456, height: 2166, alt: "The Calendar: a week of scheduled and posted drafts, and LinkedIn publishing" },
   recap: { src: "/screens/recap.png", width: 3456, height: 2166, alt: "The weekly recap: posts, link clicks, signups, top posts, and who posted" },
 } as const;
 

@@ -29,7 +29,7 @@ export const myWeek = query({
   },
 });
 
-/** One row per person: what they shipped and posted this week, what waits on them, and what they have connected. */
+/** One row per person: what they shipped and posted this week, the signups their posts brought, what waits on them, and what they have connected. */
 export const team = query({
   args: { workspaceId: v.id("workspaces") },
   handler: async (ctx, args) => {
@@ -71,7 +71,8 @@ export const team = query({
         role: member.role,
         shipped: moments.filter((moment) => isMine(moment, member)).length,
         posted: week.posted,
-        goal: week.goal,
+        clicks: week.last30.clicks,
+        signups: week.last30.conversions,
         waiting: week.waiting.ready.length + week.waiting.sentBack.length,
         sentBack: week.waiting.sentBack.length,
         inReview: week.waiting.inReview,

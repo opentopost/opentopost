@@ -16,7 +16,7 @@ export type RecapStats = {
   clicks: number;
   conversions: Record<ConversionType, number>;
   previous: { posts: number; clicks: number };
-  people: { name: string; posts: number; streak: number }[];
+  people: { name: string; posts: number; conversions: number }[];
   top: { title: string; author: string; url: string; clicks: number; conversions: number }[];
 };
 
@@ -72,18 +72,14 @@ export async function buildRecap(ctx: MutationCtx, workspaceId: Id<"workspaces">
 
   const people = members
     .map((member) => {
-      const weeks = new Set(
-        recentPosts.filter((post) => post.memberId === member._id).map((post) => weekOf(post.postedAt)),
-      );
-      let streak = 0;
-      for (let cursor = from; weeks.has(weekOf(cursor)); cursor -= WEEK) streak += 1;
+      const mine = thisWeek.filter((post) => post.memberId === member._id);
       return {
         name: member.name,
-        posts: thisWeek.filter((post) => post.memberId === member._id).length,
-        streak,
+        posts: mine.length,
+        conversions: mine.reduce((sum, post) => sum + (conversionsByPost.get(post._id) ?? 0), 0),
       };
     })
-    .sort((a, b) => b.posts - a.posts || b.streak - a.streak);
+    .sort((a, b) => b.conversions - a.conversions || b.posts - a.posts);
 
   const top = [];
   for (const post of thisWeek) {

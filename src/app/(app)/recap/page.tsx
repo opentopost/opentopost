@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery } from "convex/react";
-import { BarChart3, ExternalLink, Flame, RefreshCw } from "lucide-react";
+import { BarChart3, ExternalLink, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Button, Card, EmptyState, PageHeader, Spinner } from "@/components/ui";
@@ -58,7 +58,7 @@ export default function RecapPage() {
       />
       <TeamTable />
       {!features.recap ? (
-        <TeamOnly feature="recap" detail="Every Friday: what the team posted, the clicks and signups it drove, and who kept their streak." />
+        <TeamOnly feature="recap" detail="Every Friday: what the team posted, the clicks and signups it drove, and which posts brought them." />
       ) : recaps === undefined ? (
         <SkeletonList label="Loading recaps" />
       ) : !recap ? (
@@ -118,7 +118,7 @@ export default function RecapPage() {
                         </a>
                         <p className="text-[12px] text-muted">
                           {post.author}: {post.clicks} {post.clicks === 1 ? "click" : "clicks"}, {post.conversions}{" "}
-                          {post.conversions === 1 ? "conversion" : "conversions"}
+                          {post.conversions === 1 ? "signup" : "signups"}
                         </p>
                       </div>
                     </li>
@@ -127,18 +127,15 @@ export default function RecapPage() {
               )}
             </Card>
             <Card className="flex flex-col gap-3 p-5">
-              <h2 className="text-[15px] font-medium">Who posted</h2>
+              <h2 className="text-[15px] font-medium">Signups by person</h2>
               <ul className="flex flex-col gap-2">
                 {recap.stats.people.map((person) => (
                   <li key={person.name} className="flex items-center gap-2 text-[14px]">
                     <span className="min-w-0 flex-1 truncate">{person.name}</span>
-                    {person.streak > 1 && (
-                      <span className="inline-flex items-center gap-1 text-[12px] text-accent-deep">
-                        <Flame size={12} strokeWidth={1.75} />
-                        {person.streak} weeks
-                      </span>
-                    )}
-                    <span className="w-14 text-right font-mono text-[13px]">{person.posts}</span>
+                    <span className="text-[12px] text-muted">
+                      {person.posts} {person.posts === 1 ? "post" : "posts"}
+                    </span>
+                    <span className="w-10 text-right font-mono text-[13px]">{person.conversions ?? 0}</span>
                   </li>
                 ))}
               </ul>

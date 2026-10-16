@@ -21,9 +21,9 @@ const MARK = "sample";
 const DEMO_PREFIX = "demo:";
 
 const PEOPLE = [
-  { key: "tunde", name: "Tunde Adebayo", goal: 2 },
-  { key: "kemi", name: "Kemi Okafor", goal: 2 },
-  { key: "ada", name: "Ada Obi", goal: 1 },
+  { key: "tunde", name: "Tunde Adebayo" },
+  { key: "kemi", name: "Kemi Okafor" },
+  { key: "ada", name: "Ada Obi" },
 ] as const;
 
 type Who = (typeof PEOPLE)[number]["key"] | "owner" | "company";
@@ -305,11 +305,9 @@ export const seed = mutation({
           kindeUserId: `${DEMO_PREFIX}${person.key}`,
           role: "member",
           name: person.name,
-          weeklyGoal: person.goal,
           lastActiveAt: now - random() * 2 * DAY,
         }));
     }
-    if (!owner.weeklyGoal) await ctx.db.patch(owner._id, { weeklyGoal: 2 });
 
     const weeks = new Set<string>();
     for (const sample of POSTS) {

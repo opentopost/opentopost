@@ -1,7 +1,7 @@
 "use client";
 
 import { useAction, useMutation, useQuery } from "convex/react";
-import { Building2, CalendarClock, ChevronLeft, ChevronRight, ExternalLink, Minus, Plus, Send } from "lucide-react";
+import { Building2, CalendarClock, ChevronLeft, ChevronRight, ExternalLink, Send } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -112,35 +112,6 @@ function LinkedInCard() {
   );
 }
 
-function GoalCard({ weekly, posted }: { weekly: number; posted: number }) {
-  const { workspace } = useWorkspace();
-  const setGoal = useMutation(api.schedule.setWeeklyGoal);
-  const share = weekly ? Math.min(100, Math.round((posted / weekly) * 100)) : 0;
-  return (
-    <Card className="flex flex-col gap-3 p-5">
-      <div className="flex items-center justify-between">
-        <h2 className="text-[16px] font-medium">Your weekly goal</h2>
-        <div className="flex items-center gap-1">
-          <Button variant="ghost" aria-label="Fewer posts" className="w-8 px-0" disabled={weekly <= 0} onClick={() => void setGoal({ workspaceId: workspace._id, goal: weekly - 1 })}>
-            <Minus size={14} strokeWidth={1.75} />
-          </Button>
-          <span className="w-6 text-center font-mono text-[14px]">{weekly}</span>
-          <Button variant="ghost" aria-label="More posts" className="w-8 px-0" disabled={weekly >= 14} onClick={() => void setGoal({ workspaceId: workspace._id, goal: weekly + 1 })}>
-            <Plus size={14} strokeWidth={1.75} />
-          </Button>
-        </div>
-      </div>
-      <p className="text-[24px] tracking-[-0.02em]">
-        {posted} <span className="text-[14px] text-muted">of {weekly} posts in the last 7 days</span>
-      </p>
-      <div className="h-2 overflow-hidden rounded-full bg-fill" role="progressbar" aria-valuenow={share} aria-valuemin={0} aria-valuemax={100}>
-        <div className="h-full bg-accent" style={{ width: `${share}%` }} />
-      </div>
-      <p className="text-[12px] text-muted">Two posts a week is enough to be remembered. Consistency beats volume.</p>
-    </Card>
-  );
-}
-
 export default function CalendarPage() {
   const { workspace } = useWorkspace();
   const [now] = useState(() => Date.now());
@@ -156,10 +127,7 @@ export default function CalendarPage() {
         description="Plan when posts go out. Posts on your own profile can publish on their own. Company posts send a reminder."
       />
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <LinkedInCard />
-        {data ? <GoalCard weekly={data.goal.weekly} posted={data.goal.postedThisWeek} /> : <SkeletonList label="Loading your goal" rows={1} />}
-      </div>
+      <LinkedInCard />
 
       <Card className="overflow-hidden">
         <div className="flex items-center justify-between border-b border-line px-5 py-3">
