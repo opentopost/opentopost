@@ -2,9 +2,9 @@ import { components } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import type { MutationCtx, QueryCtx } from "../_generated/server";
 import { deploymentMode, SELF_HOSTED, type DeploymentMode, type Limits } from "./limits";
-import { AI_CALLS, PLAN_LIMITS, TEAM_INCLUDED_SEATS, type Plan } from "./planLimits";
+import { AI_CALLS, PLAN_LIMITS, PRO_USD_MONTH, TEAM_INCLUDED_SEATS, type Plan } from "./planLimits";
 
-export { AI_CALLS, PLAN_LIMITS, TEAM_INCLUDED_SEATS, type Plan };
+export { AI_CALLS, PLAN_LIMITS, PRO_USD_MONTH, TEAM_INCLUDED_SEATS, type Plan };
 
 
 export type Features = {

@@ -91,6 +91,8 @@ export default defineSchema({
     autopilot: v.optional(v.boolean()),
     // Set on the read-only demo workspaces behind demo.opentopost.com. The value is the scenario key.
     demo: v.optional(v.string()),
+    // Who the workspace is for: one person (Pro) or a team (Team). Set by the access link. Unset means a team.
+    kind: v.optional(v.union(v.literal("individual"), v.literal("team"))),
     // Write each person's top idea for them after a scan. On unless set to false.
     autoDraft: v.optional(v.boolean()),
     // Hour of day (0-23, workspace time zone) used when a draft is approved without a time.

@@ -4,6 +4,9 @@ export type Plan = "free" | "pro" | "team";
 
 export const TEAM_INCLUDED_SEATS = 3;
 
+/** What Pro costs one person each month, in US dollars. */
+export const PRO_USD_MONTH = 19;
+
 export const PLAN_LIMITS: Record<Plan, Limits> = {
   free: HOSTED,
   pro: {
