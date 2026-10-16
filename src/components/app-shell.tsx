@@ -519,6 +519,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const current = useQuery(api.workspaces.current, isAuthenticated ? {} : "skip");
   const ensure = useMutation(api.workspaces.ensure);
   const requested = useRef(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated || current !== null || requested.current) return;
@@ -530,7 +531,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       accessCode = undefined;
     }
     const started = ensure({ timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, accessCode });
-    started.catch(() => undefined);
+    started.catch(() => setFailed(true));
   }, [isAuthenticated, current, ensure]);
 
   useEffect(() => {
@@ -553,6 +554,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     );
   }
 
+
+  if (failed && !current) {
+    return (
+      <CenterMessage>
+        <Mark size={48} />
+        <h1 className="text-[20px] font-medium">We could not open your workspace</h1>
+        <p className="max-w-[420px] text-muted">Reload the page to try again. If it keeps happening, sign out and sign in again.</p>
+        <div className="flex gap-2">
+          <button type="button" onClick={() => window.location.reload()} className={buttonClass("primary")}>
+            Reload
+          </button>
+          <LogoutLink className={buttonClass("secondary")}>Sign out</LogoutLink>
+        </div>
+      </CenterMessage>
+    );
+  }
 
   if (!current) {
     return <AppLoader step={isLoading ? 0 : current === undefined ? 1 : 2} />;

@@ -28,7 +28,12 @@ export const ensure = mutation({
   args: { timezone: v.string(), accessCode: v.optional(v.string()) },
   handler: async (ctx, args) => {
     const identity = await requireIdentity(ctx);
-    const existing = await memberships(ctx, identity.subject);
+    const existing: Awaited<ReturnType<typeof memberships>> = [];
+    for (const row of await memberships(ctx, identity.subject)) {
+      // A membership whose workspace was deleted would block this sign-in forever, so drop it.
+      if (await ctx.db.get(row.workspaceId)) existing.push(row);
+      else await ctx.db.delete(row._id);
+    }
     if (existing.length > 0) return existing[0].workspaceId;
 
     const entry = await entryFor(ctx, identity, args.accessCode);

@@ -10,13 +10,65 @@ export const metadata: Metadata = pageMetadata("tools");
 
 const TOOLS = [
   {
+    href: "/tools/post-checker",
+    tag: "Writing",
+    title: "Post checker",
+    body: "Paste a draft and check the first line, the see more fold, the length, and the phrases that make a post sound AI-written.",
+    tone: "bg-sky",
+    art: "checker",
+  },
+  {
+    href: "/tools/post-preview",
+    tag: "Preview",
+    title: "Post preview",
+    body: "See your post on mobile and desktop, with your name and photo, and the exact point where see more cuts it off.",
+    tone: "bg-butter",
+    art: "preview",
+  },
+  {
     href: "/tools/linkedin-photo",
     tag: "Photo",
     title: "LinkedIn photo tool",
     body: "Crop to the circle, fix the light, add a ring with your tag, and see it on a profile, a post and a comment before you upload.",
     tone: "bg-accent-soft",
+    art: "photo",
   },
 ];
+
+function Art({ kind }: { kind: string }) {
+  if (kind === "checker")
+    return (
+      <div className="flex w-[240px] flex-col gap-2" aria-hidden>
+        {[true, true, false].map((ok, index) => (
+          <div key={index} className="flex items-center gap-2 rounded-item border border-line bg-surface px-3 py-2">
+            <span className={`size-3 rounded-full ${ok ? "bg-lime-ink" : "bg-danger"}`} />
+            <span className="h-2 flex-1 rounded-full bg-fill" />
+          </div>
+        ))}
+      </div>
+    );
+  if (kind === "preview")
+    return (
+      <div className="w-[240px] rounded-item border border-line bg-surface p-3" aria-hidden>
+        <div className="flex items-center gap-2">
+          <span className="size-7 rounded-full bg-fill" />
+          <span className="h-2 w-24 rounded-full bg-fill" />
+        </div>
+        <div className="mt-3 flex flex-col gap-1.5">
+          <span className="h-2 rounded-full bg-fill" />
+          <span className="h-2 w-4/5 rounded-full bg-fill" />
+          <span className="text-[11px] font-medium text-muted">… see more</span>
+        </div>
+      </div>
+    );
+  return (
+    <div className="flex items-center gap-3" aria-hidden>
+      <span className="size-24 rounded-full border-4 border-accent bg-surface shadow-sm" />
+      <span className="size-14 rounded-full border-2 border-accent-mid bg-surface" />
+      <span className="size-9 rounded-full border-2 border-accent-mid bg-surface" />
+    </div>
+  );
+}
 
 export default function Tools() {
   return (
@@ -35,11 +87,7 @@ export default function Tools() {
               className="group flex flex-col overflow-hidden rounded-card border border-line bg-surface/80 transition-colors hover:border-accent-mid"
             >
               <div className={`flex h-[180px] items-center justify-center ${tool.tone}`}>
-                <div className="flex items-center gap-3" aria-hidden>
-                  <span className="size-24 rounded-full border-4 border-accent bg-surface shadow-sm" />
-                  <span className="size-14 rounded-full border-2 border-accent-mid bg-surface" />
-                  <span className="size-9 rounded-full border-2 border-accent-mid bg-surface" />
-                </div>
+                <Art kind={tool.art} />
               </div>
               <div className="flex flex-1 flex-col gap-3 p-6">
                 <Eyebrow>{tool.tag}</Eyebrow>

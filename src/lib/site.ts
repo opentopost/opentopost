@@ -81,6 +81,22 @@ export const PAGES = {
     eyebrow: "Free tools",
     heading: "Free tools for people who post on LinkedIn",
   },
+  postChecker: {
+    path: "/tools/post-checker",
+    title: "Free LinkedIn post checker",
+    description:
+      "Paste a LinkedIn draft and check the first line, the see more fold, the length, and the phrases that make a post sound AI-written. It runs on your device.",
+    eyebrow: "Free tool",
+    heading: "Check your LinkedIn post before you publish",
+  },
+  postPreview: {
+    path: "/tools/post-preview",
+    title: "Free LinkedIn post preview",
+    description:
+      "See your LinkedIn post on mobile and desktop, with the exact point where see more cuts it off. It runs on your device, so your draft is never uploaded.",
+    eyebrow: "Free tool",
+    heading: "See your LinkedIn post the way your reader will",
+  },
   linkedinPhoto: {
     path: "/tools/linkedin-photo",
     title: "Free LinkedIn photo tool",
